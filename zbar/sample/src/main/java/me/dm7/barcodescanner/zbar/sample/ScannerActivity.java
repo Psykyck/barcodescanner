@@ -16,8 +16,10 @@ import android.view.MenuItem;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,6 +153,11 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
         //showMessageDialog("Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
         Intent i = new Intent(Intent.ACTION_VIEW);
         if (Patterns.WEB_URL.matcher(rawResult.getContents()).matches()) {
+            try{
+                checkURL(rawResult.getContents());
+            } catch (IOException e){
+
+            }
             i.setData(Uri.parse(rawResult.getContents()));
             startActivity(i);
         } else {
@@ -159,8 +166,13 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
 
     }
 
-    public InputStream checkURL(URL url) throws IOException {
+    public InputStream checkURL(String arg) throws IOException {
         InputStream result;
+        String query = URLEncoder.encode(arg, "utf-8");
+        String request = "https://sb-ssl.google.com/safebrowsing/api/lookup?client=InfoSec&key=AIzaSyCCn9EpFwEk0rnnrxgQue9H40iGI_z2rBw&appver=1.5.2&pver=3.1&url=" + query;
+
+        URL url = new URL(request);
+
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             result = new BufferedInputStream(urlConnection.getInputStream());
