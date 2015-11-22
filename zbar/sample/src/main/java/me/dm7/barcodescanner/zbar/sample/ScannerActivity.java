@@ -201,14 +201,19 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
         List<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
         if(mSelectedIndices == null || mSelectedIndices.isEmpty()) {
             mSelectedIndices = new ArrayList<Integer>();
-            for(int i = 0; i < BarcodeFormat.ALL_FORMATS.size(); i++) {
-                mSelectedIndices.add(i);
-            }
+//            for(int i = 0; i < BarcodeFormat.ALL_FORMATS.size(); i++) {
+//                mSelectedIndices.add(i);
+//            }
+
+            mSelectedIndices.add(BarcodeFormat.QRCODE.getId());
         }
 
-        for(int index : mSelectedIndices) {
-            formats.add(BarcodeFormat.ALL_FORMATS.get(index));
-        }
+//        for(int index : mSelectedIndices) {
+//            formats.add(BarcodeFormat.ALL_FORMATS.get(index));
+//        }
+
+        formats.add(BarcodeFormat.QRCODE);
+
         if(mScannerView != null) {
             mScannerView.setFormats(formats);
         }
