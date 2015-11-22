@@ -1,5 +1,7 @@
 package me.dm7.barcodescanner.zbar.sample;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -151,22 +153,52 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         //showMessageDialog("Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
+        List<String> blocked = new ArrayList<>();
         Intent i = new Intent(Intent.ACTION_VIEW);
-        if (Patterns.WEB_URL.matcher(rawResult.getContents()).matches()) {
-            try{
-                checkURL(rawResult.getContents());
-            } catch (IOException e){
+        showDialog("Launch" + rawResult.getContents() + "?",i,rawResult.getContents(),blocked);
+        finish();
+        Intent p = getIntent();
+        startActivity(p);
 
-            }
-            i.setData(Uri.parse(rawResult.getContents()));
+    }
+    public void onLaunchBrowser(Intent i, String url, List<String> blocked)
+    {
+
+        if(Patterns.WEB_URL.matcher(url).matches()&& !blocked.contains(url)){
+            i.setData(Uri.parse(url));
             startActivity(i);
         } else {
-            showMessageDialog("Not a Valid URL");
+            showMessageDialog("Not a Valid URL or Is blocked");
+        }
+    }
+
+    public void onBlock(List<String> blocked, String url) {
+        if (!blocked.contains(url))
+        {
+            blocked.add(url);
         }
 
+    }
+    public void showDialog(String title, final Intent i, final String url, final List<String> blocked) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(title)
+                .setCancelable(false)
+                .setPositiveButton("Launch Browser", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onLaunchBrowser(i, url, blocked);
+
+                    }
+                })
+                .setNegativeButton("Block url", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onBlock(blocked,url);
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public String checkURL(String arg) throws IOException {
