@@ -13,6 +13,11 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,16 +146,29 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         //showMessageDialog("Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
         Intent i = new Intent(Intent.ACTION_VIEW);
-        if(Patterns.WEB_URL.matcher(rawResult.getContents()).matches()){
+        if (Patterns.WEB_URL.matcher(rawResult.getContents()).matches()) {
             i.setData(Uri.parse(rawResult.getContents()));
             startActivity(i);
         } else {
             showMessageDialog("Not a Valid URL");
         }
 
+    }
+
+    public InputStream checkURL(URL url) throws IOException {
+        InputStream result;
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            result = new BufferedInputStream(urlConnection.getInputStream());
+        }
+        finally{
+            urlConnection.disconnect();
+        }
+        return result;
     }
 
     public void showMessageDialog(String message) {
