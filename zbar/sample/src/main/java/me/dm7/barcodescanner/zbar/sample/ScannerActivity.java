@@ -187,29 +187,17 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
         URL url = new URL(baseURL + "?" + arguments);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        try {
-            is = new BufferedInputStream(connection.getInputStream());
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String inputLine = "";
-            while ((inputLine = br.readLine()) != null) {
-                sb.append(inputLine);
+        sb.append(connection.getResponseCode());
+        result = sb.toString();
+        if (is != null) {
+            try {
+                is.close();
             }
-            result = sb.toString();
-        }
-        catch (Exception e) {
-            //Log.i(TAG, "Error reading InputStream");
-            result = null;
-        }
-        finally {
-            if (is != null) {
-                try {
-                    is.close();
-                }
-                catch (IOException e) {
-                    //Log.i(TAG, "Error closing InputStream");
-                }
+            catch (IOException e) {
+                //Log.i(TAG, "Error closing InputStream");
             }
         }
+
         return result;
     }
 
