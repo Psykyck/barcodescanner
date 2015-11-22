@@ -79,8 +79,8 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
         }
         MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        menuItem = menu.add(Menu.NONE, R.id.menu_formats, 0, R.string.formats);
-        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        menuItem = menu.add(Menu.NONE, R.id.menu_formats, 0, R.string.formats);
+//        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menuItem = menu.add(Menu.NONE, R.id.menu_camera_selector, 0, R.string.select_camera);
         MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -108,10 +108,10 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
                 }
                 mScannerView.setAutoFocus(mAutoFocus);
                 return true;
-            case R.id.menu_formats:
-                DialogFragment fragment = FormatSelectorDialogFragment.newInstance(this, mSelectedIndices);
-                fragment.show(getActivity().getSupportFragmentManager(), "format_selector");
-                return true;
+//            case R.id.menu_formats:
+//                DialogFragment fragment = FormatSelectorDialogFragment.newInstance(this, mSelectedIndices);
+//                fragment.show(getActivity().getSupportFragmentManager(), "format_selector");
+//                return true;
             case R.id.menu_camera_selector:
                 mScannerView.stopCamera();
                 DialogFragment cFragment = CameraSelectorDialogFragment.newInstance(this, mCameraId);
