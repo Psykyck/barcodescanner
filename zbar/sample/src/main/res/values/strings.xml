@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SafeQR</string>
-    <string name="scanner_activity">ZBar Scanner - Full Activity</string>
+    <string name="scanner_activity">SafeQR</string>
     <string name="scanner_fragment_activity">ZBar Scanner - Full Fragment Activity</string>
     <string name="simple_scanner_activity">ZBar Scanner - Simple Activity</string>
     <string name="simple_scanner_fragment_activity">ZBar Scanner - Simple Fragment Activity</string>

@@ -1,5 +1,6 @@
 package me.dm7.barcodescanner.zbar.sample;
 
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -140,7 +142,15 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {}
-        showMessageDialog("Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
+        //showMessageDialog("Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        if(Patterns.WEB_URL.matcher(rawResult.getContents()).matches()){
+            i.setData(Uri.parse(rawResult.getContents()));
+            startActivity(i);
+        } else {
+            showMessageDialog("Not a Valid URL");
+        }
+
     }
 
     public void showMessageDialog(String message) {
