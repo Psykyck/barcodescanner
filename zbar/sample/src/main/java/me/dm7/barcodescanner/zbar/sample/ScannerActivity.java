@@ -374,8 +374,7 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
 
     public void onBlock( String url, Intent i) {
 
-        finish();
-        startActivity(i);
+        onResume();
 
     }
 
