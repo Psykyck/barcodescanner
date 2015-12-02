@@ -1,5 +1,10 @@
 package me.dm7.barcodescanner.zbar.sample;
+/*
+    Zbar library and activity source: https://github.com/dm77/barcodescanner
+    This repository was forked and our security changes were added
 
+    Connor Clark, Umang Sharaf, Clement Lu, Michael McGaha
+ */
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
