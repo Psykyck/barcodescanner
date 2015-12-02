@@ -203,7 +203,8 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
             case "200":
                 try {
                     JSONObject m = new JSONObject(mWOTMessage);
-                    JSONObject o= m.getJSONObject(url);
+                    String temp = m.keys().next();
+                    JSONObject o= m.getJSONObject(temp);
                     message+="\n\nWOT's response message:\nTrustworthiness: "+o.getJSONArray("0").getInt(0)+"%\nChild safety: "+o.getJSONArray("4").getInt(0)+"%";
 
                     if(o.has("categories")) {
