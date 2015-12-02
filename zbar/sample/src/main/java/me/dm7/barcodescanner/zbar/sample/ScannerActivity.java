@@ -171,10 +171,12 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
         Intent i = new Intent(Intent.ACTION_VIEW);
         String res = "",resWOT="";
         Intent current = getIntent();
-        if (Patterns.WEB_URL.matcher(rawResult.getContents()).matches()) {
+        String url = rawResult.getContents().replace("https://", "");
+        url = url.replace("http://","");
+        if (Patterns.WEB_URL.matcher(url).matches()) {
             try {
-                res = new sendRequest().execute(rawResult.getContents()).get();
-                resWOT = new sendRequestWOT().execute(rawResult.getContents()).get();
+                res = new sendRequest().execute(url).get();
+                resWOT = new sendRequestWOT().execute(url).get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -201,7 +203,7 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
             case "200":
                 try {
                     JSONObject m = new JSONObject(mWOTMessage);
-                    JSONObject o= m.getJSONObject(rawResult.getContents());
+                    JSONObject o= m.getJSONObject(url);
                     message+="\n\nWOT's response message:\nTrustworthiness: "+o.getJSONArray("0").getInt(0)+"%\nChild safety: "+o.getJSONArray("4").getInt(0)+"%";
 
                     if(o.has("categories")) {
@@ -271,7 +273,7 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
                 message +="Failed to check WOT's Blacklist.\n\n";
         }
 
-        showDialog("Launch " + rawResult.getContents() + "?", i, rawResult.getContents(), message, current);
+        showDialog("Launch " + url + "?", i, url, message, current);
     }
 
     public void onLaunchBrowser(Intent i, String url) {
