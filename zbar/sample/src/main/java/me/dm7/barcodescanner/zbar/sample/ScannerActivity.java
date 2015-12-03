@@ -434,55 +434,13 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
         List<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
         if (mSelectedIndices == null || mSelectedIndices.isEmpty()) {
             mSelectedIndices = new ArrayList<Integer>();
-//            for(int i = 0; i < BarcodeFormat.ALL_FORMATS.size(); i++) {
-//                mSelectedIndices.add(i);
-//            }
-
             mSelectedIndices.add(BarcodeFormat.QRCODE.getId());
         }
-
-//        for(int index : mSelectedIndices) {
-//            formats.add(BarcodeFormat.ALL_FORMATS.get(index));
-//        }
 
         formats.add(BarcodeFormat.QRCODE);
 
         if (mScannerView != null) {
             mScannerView.setFormats(formats);
-        }
-
-        InputStream is = null;
-        // Only display the first 500 characters of the retrieved
-        // web page content.
-        int len = 500;
-
-        try {
-            URL url = new URL("http://api.mywot.com/0.4/public_link_json2?hosts=goooogle.com/&key=b667210b38604f57ff657406d23679889aa2f9dc");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-            // Starts the query
-            conn.connect();
-            int response = conn.getResponseCode();
-            is = conn.getInputStream();
-
-            // Convert the InputStream into a string
-            //String contentAsString = readIt(is, len);
-
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-        } catch (Exception ee) {
-            int i = 0;
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Exception e) {
-
-                }
-            }
         }
     }
 
